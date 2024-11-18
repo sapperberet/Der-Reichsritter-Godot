@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cnplqpbxey323"]
+
+[ext_resource type="Texture2D" uid="uid://cuwntibf8gerb" path="res://assets/sprites/world_tileset.png" id="1_44mda"]
+[ext_resource type="Script" path="res://scripts/stairs.gd" id="1_q87lj"]
+[ext_resource type="AudioStream" uid="uid://xxyjlnkd2r60" path="res://assets/sounds/jump.wav" id="3_ylnt5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aoxrv"]
+size = Vector2(22, 21)
+
+[node name="Stairs" type="Area2D"]
+script = ExtResource("1_q87lj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_44mda")
+region_enabled = true
+region_rect = Rect2(144, 51, 16, 14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_aoxrv")
+
+[node name="climb" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ylnt5")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="input_event" from="." to="." method="_on_input_event"]

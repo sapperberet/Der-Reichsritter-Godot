@@ -1,0 +1,151 @@
+[gd_scene load_steps=20 format=3 uid="uid://skkaat40lxod"]
+
+[ext_resource type="Texture2D" uid="uid://bjhwfmid8y3hw" path="res://assets/sprites/slime_purple.png" id="1_aweu7"]
+[ext_resource type="Script" path="res://scripts/sslime.gd" id="1_b0k0g"]
+[ext_resource type="Script" path="res://scenes/Sslimecollision.gd" id="2_dobe1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xsarj"]
+atlas = ExtResource("1_aweu7")
+region = Rect2(0, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d3ksu"]
+atlas = ExtResource("1_aweu7")
+region = Rect2(24, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_itbx2"]
+atlas = ExtResource("1_aweu7")
+region = Rect2(48, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gd280"]
+atlas = ExtResource("1_aweu7")
+region = Rect2(72, 48, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_al82k"]
+atlas = ExtResource("1_aweu7")
+region = Rect2(0, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ere1d"]
+atlas = ExtResource("1_aweu7")
+region = Rect2(24, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lmnf7"]
+atlas = ExtResource("1_aweu7")
+region = Rect2(48, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wcjpx"]
+atlas = ExtResource("1_aweu7")
+region = Rect2(72, 24, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o8l6h"]
+atlas = ExtResource("1_aweu7")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_51bsa"]
+atlas = ExtResource("1_aweu7")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v6sc2"]
+atlas = ExtResource("1_aweu7")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d78mx"]
+atlas = ExtResource("1_aweu7")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i1yrm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xsarj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d3ksu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_itbx2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gd280")
+}],
+"loop": false,
+"name": &"die",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_al82k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ere1d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lmnf7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wcjpx")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o8l6h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_51bsa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v6sc2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d78mx")
+}],
+"loop": true,
+"name": &"wake",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eytfy"]
+size = Vector2(10, 14)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4j7wa"]
+radius = 156.003
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tg8ak"]
+size = Vector2(10, 6.5)
+
+[node name="Sslime" type="CharacterBody2D"]
+script = ExtResource("1_b0k0g")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_i1yrm")
+animation = &"die"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 4)
+shape = SubResource("RectangleShape2D_eytfy")
+script = ExtResource("2_dobe1")
+
+[node name="player detection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player detection"]
+shape = SubResource("CircleShape2D_4j7wa")
+
+[node name="player death" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player death"]
+position = Vector2(0, -7)
+shape = SubResource("RectangleShape2D_tg8ak")
+
+[node name="player collision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player collision"]
+
+[connection signal="body_entered" from="player detection" to="." method="_on_player_detection_body_entered"]
+[connection signal="body_exited" from="player detection" to="." method="_on_player_detection_body_exited"]
+[connection signal="body_entered" from="player death" to="." method="_on_player_death_body_entered"]
+[connection signal="body_exited" from="player death" to="." method="_on_player_death_body_exited"]
+[connection signal="body_entered" from="player collision" to="." method="_on_player_collision_body_entered"]
+[connection signal="body_exited" from="player collision" to="." method="_on_player_collision_body_exited"]

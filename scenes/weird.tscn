@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://cj100rpsf13dd"]
+
+[ext_resource type="Script" path="res://scripts/weird.gd" id="1_vpkgw"]
+[ext_resource type="Texture2D" uid="uid://cuwntibf8gerb" path="res://assets/sprites/world_tileset.png" id="2_x53kc"]
+[ext_resource type="AudioStream" uid="uid://b5p060ldwvdmb" path="res://assets/sounds/warning-notification-call-184996.mp3" id="3_1pjx0"]
+[ext_resource type="FontFile" uid="uid://dj7n5o5qe5l5j" path="res://assets/fonts/PixelOperator8.ttf" id="4_f10cc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2tjp1"]
+size = Vector2(20, 39)
+
+[node name="sign" type="Area2D"]
+script = ExtResource("1_vpkgw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_x53kc")
+region_enabled = true
+region_rect = Rect2(128.629, 47.8881, 14.4198, 16.5926)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -9.5)
+shape = SubResource("RectangleShape2D_2tjp1")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_1pjx0")
+
+[node name="sign water" type="Label" parent="."]
+offset_left = -92.0
+offset_top = -41.0
+offset_right = 19.0
+offset_bottom = -15.0
+theme_override_fonts/font = ExtResource("4_f10cc")
+theme_override_font_sizes/font_size = 8
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.5
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
